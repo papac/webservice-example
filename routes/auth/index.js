@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../../model/user');
 
 // Connect mongo db
-mongoose.connect(config.mongodb, { useNewUrlParser: true });
+mongoose.connect(config.mongodb, { useNewUrlParser: true, useCreateIndex: true });
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -21,8 +21,12 @@ router.post('/login', (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, config.secret, {
-      expiresIn // expires in 24 hours
+    const token = jwt.sign({ 
+      id: user._id, 
+      name: user.name, 
+      exp: expiresIn 
+    }, config.secret, {
+      expiresIn
     });
 
     res.send({
@@ -65,7 +69,7 @@ router.post('/register', (req, res) => {
   })
 });
 
-router.post('/check', (req, res) => {
+router.post('/verify', (req, res) => {
   const token = req.headers['x-access-token'];
 
   if (typeof token === 'undefined') {
