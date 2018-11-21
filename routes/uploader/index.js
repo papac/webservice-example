@@ -5,6 +5,14 @@ const path = require('path');
 const fs = require('fs');
 const md5 = require('md5');
 const storage = path.resolve(__dirname + '/../../storage');
+const Material = require('../../model/material');
+const config = require('../../config');
+const mongoose = require('mongoose');
+
+mongoose.connect(config.filename, {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 
 router.get('/url', (req, res) => {
   const { filename } = req.query
@@ -42,10 +50,18 @@ router.post('/upload', (req, res) => {
       });
     }
 
+    Material.create({
+      filename: file.name,
+      hashname: `${hashname}${extension}`,
+      size: file.size,
+      path: `${hashname}${extension}`,
+      url: `${hashname}${extension}`
+    });
+
     res.status(201).send({
       message: 'File uploaded!', 
       error: false,
-      filename: `${hashname}${extension}`
+      path: `${hashname}${extension}`
     });
   });
 });
