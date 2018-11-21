@@ -1,0 +1,23 @@
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 56px;
+}
+
+.text-white-50 { color: rgba(255, 255, 255, .5); }
+
+.bg-blue { background-color: #007bff; }
+
+.lh-100 { line-height: 1; }
+.lh-125 { line-height: 1.25; }
+.lh-150 { line-height: 1.5; }
+
+.menu-action li {
+  padding:0;
+  margin-left: 10px;
+  list-style-type:none;
+  display: inline-block;
+}

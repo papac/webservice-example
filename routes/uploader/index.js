@@ -8,7 +8,6 @@ const storage = path.resolve(__dirname + '/../../storage');
 
 router.get('/url', (req, res) => {
   const { filename } = req.query
-  console.log(path.join(storage, filename));
   fs.exists(path.join(storage, filename), (exists, err) => {
     if (!exists) {
       console.log(err);
@@ -45,7 +44,8 @@ router.post('/upload', (req, res) => {
 
     res.status(201).send({
       message: 'File uploaded!', 
-      error: false
+      error: false,
+      filename: `${hashname}${extension}`
     });
   });
 });
