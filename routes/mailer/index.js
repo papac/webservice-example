@@ -1,6 +1,10 @@
 const express = require('express')
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const config = require('../../config');
+const mongoose = require('mongoose');
+const reEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const checkToken = require('../middleware');
 const code = {
   VALIDATION: 1000,
   EMAIL_INVALID: 10001,
@@ -8,7 +12,10 @@ const code = {
   SUCCESS: 1003
 }
 
-const reEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+// Connect mongo db
+mongoose.connect(config.mongodb, { useNewUrlParser: true, useCreateIndex: true });
+
+router.use(checkToken(require('../../model/user')));
 
 const checkEmail = (email) => reEmail.test(email);
 
@@ -39,6 +46,7 @@ router.post('/check', (req, res) => {
 });
 
 router.post('/process', (req, res) => {
+  
   const transporter = nodemailer.createTransport({
     host: 'localhost',
     port: 1025,

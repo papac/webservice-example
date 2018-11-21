@@ -1,6 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
-const mailerRouter = require('./routes/mailer');
+const mailerRouter = require('../routes/mailer');
 const app = express();
 
 app.use(logger('dev'));

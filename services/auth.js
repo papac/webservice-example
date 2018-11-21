@@ -1,6 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
-const authRouter = require('./routes/auth');
+const authRouter = require('../routes/auth');
 const app = express();
 
 app.use(logger('dev'));

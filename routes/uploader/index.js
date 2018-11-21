@@ -7,12 +7,15 @@ const md5 = require('md5');
 const storage = path.resolve(__dirname + '/../../storage');
 const Material = require('../../model/material');
 const config = require('../../config');
+const checkToken = require('../middleware');
 const mongoose = require('mongoose');
 
-mongoose.connect(config.filename, {
+mongoose.connect(config.mongodb, {
   useNewUrlParser: true,
   useCreateIndex: true
 });
+
+router.use(checkToken(require('../../model/user')));
 
 router.get('/url', (req, res) => {
   const { filename } = req.query
