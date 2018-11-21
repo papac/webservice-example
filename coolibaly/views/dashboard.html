@@ -9,9 +9,9 @@
 
     <title>Dashboard</title>
 
-    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="assets/css/dashboard.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
   </head>
 
   <body class="bg-light">
@@ -19,16 +19,16 @@
     <main role="main" class="container">
 
       <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-blue rounded shadow-sm">
-        <img class="mr-3" src="assets/img/user.svg" alt="" width="48" height="48">
+        <img class="mr-3" src="/img/user.svg" alt="" width="48" height="48">
         <div class="lh-100">
           <h6 class="mb-0 text-white lh-100">{{ username }} </h6>
           <small>{{ compaign_record }}</small> <!-- <span class="mx-2">·</span> -->
         </div>
         <div style="float: right; margin-left: 700px;">
           <ul class="menu-action">
-            <li><a href="{{link}}"> <img src="assets/img/email.svg" alt="" width="32" height="32"> </a></li>
-            <li><a href="{{link}}"> <img src="assets/img/new-user.svg" alt="" width="32" height="32"> </a></li>
-            <li><a href="{{link}}"> <img src="assets/img/logout.svg" alt="" width="32" height="32"> </a></li>
+            <li><a href="{{link}}"> <img src="/img/email.svg" alt="" width="32" height="32"> </a></li>
+            <li><a href="{{link}}"> <img src="/img/new-user.svg" alt="" width="32" height="32"> </a></li>
+            <li><a href="{{link}}"> <img src="/img/logout.svg" alt="" width="32" height="32"> </a></li>
           </ul>
         </div>
       </div>
@@ -36,7 +36,7 @@
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0"> {{ Campaigns }} <span class="badge badge-pill bg-light align-text-bottom">04</span></h6>
         <div class="media text-muted pt-3">
-          <img src="assets/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div class="d-flex justify-content-between align-items-center w-100">
               <strong class="text-gray-dark"> {{ campaign_title }} </strong>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div class="media text-muted pt-3">
-          <img src="assets/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div class="d-flex justify-content-between align-items-center w-100">
               <strong class="text-gray-dark"> {{ campaign_title }} </strong>
@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="media text-muted pt-3">
-          <img src="assets/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/paper-plane.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div class="d-flex justify-content-between align-items-center w-100">
               <strong class="text-gray-dark"> {{ campaign_title }} </strong>
@@ -73,21 +73,21 @@
       <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h6 class="border-bottom border-gray pb-2 mb-0"> {{ contacts }} </h6>
         <div class="media text-muted pt-3">
-          <img src="assets/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <strong class="d-block text-gray-dark"> {{ full_name}} </strong>
             {{ email_address }}
           </p>
         </div>
         <div class="media text-muted pt-3">
-          <img src="assets/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <strong class="d-block text-gray-dark"> {{ full_name}} </strong>
             {{ email_address }}
           </p>
         </div>
         <div class="media text-muted pt-3">
-          <img src="assets/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
+          <img src="/img/contact.svg" alt="" width="32" height="32" class="mr-2 rounded">
           <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <strong class="d-block text-gray-dark"> {{ full_name}} </strong>
             {{ email_address }}
