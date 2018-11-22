@@ -16,7 +16,6 @@ services:
         service: "mailer"
     ports:
      - "3001:3001"
-    command: "maildev"
   uploader:
     build:
       context: .

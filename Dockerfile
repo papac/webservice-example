@@ -16,4 +16,6 @@ ENV PORT=${port}
 
 EXPOSE ${port}
 
+RUN [ -d /usr/src/app/storage ] || mkdir -p /usr/src/app/storage
+
 CMD [ "node", "./bin/www" ]
