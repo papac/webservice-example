@@ -102,5 +102,34 @@ POST /register
 Content-Type: application/x-form-www-urlencoded
 Host: http://locahost:3000
 
-email=example@email.com&password=password
+email=example@email.com&password=password&name=nom
 ```
+
+### Vérifier un token
+
+```http
+POST /veridy
+
+Host: http://locahost:3000
+X-Access-Token: Votre-Token-Ici
+```
+
+### Service Upload
+
+Ce service permet d'envoyer des fichiers sur le serveur.
+
+Avant d'utiliser ce service votre devez disponcer d'un token:
+
+### Uploade un fichier
+
+```http
+POST /upload
+
+Host: http://locahost:3002
+Content-Type: muttpart/form-data
+```
+
+### Téléchargé un image
+
+Le service pour permet aussi de télécharger une image.
+
