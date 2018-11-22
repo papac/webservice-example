@@ -126,7 +126,7 @@ Avant d'utiliser ce service votre devrez disposer d'un token valide:
 POST /upload
 
 Host: http://locahost:3002
-Content-Type: muttpart/form-data
+Content-Type: multipart/form-data
 ```
 
 ### Téléchargé un image
