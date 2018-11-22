@@ -16,7 +16,7 @@ Installez les dépendances suivantes, sur votre PC:
 
 - Nodejs
 - Mongodb (L'application utilise [mlab.com](https://mlab.com)), mais vous pouvez modifier le DSN de la connexion dans le fichier `config.js`.
-- Npm or Yarn (Qu'est-ce que tu veux!)
+- Npm or Yarn (Choisissez)
 - Git (Ou vous pouvez télécharger l'application)
 - Maildev
 
@@ -51,21 +51,21 @@ Pour lancer le service, assurez-vous que vous êtes dans le dossier `webservice`
 #### Lancer le service Auth
 
 ```bash
-# je suis dans le dossier l'application
+# je suis dans le dossier de l'application
 ENV_SERVICE=auth PORT=3000 node ./bin/www
 ```
 
 #### Lancer le service mailer
 
 ```bash
-# je suis dans le dossier l'application
+# je suis dans le dossier de l'applicationl'application
 ENV_SERVICE=mailer PORT=3001 node ./bin/www
 ```
 
 #### Lancer le service uploader
 
 ```bash
-# je suis dans le dossier l'application
+# je suis dans le dossier de l'application
 ENV_SERVICE=uploader PORT=3002 node ./bin/www
 ```
 
