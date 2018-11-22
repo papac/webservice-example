@@ -58,7 +58,7 @@ ENV_SERVICE=auth PORT=3000 node ./bin/www
 #### Lancer le service mailer
 
 ```bash
-# je suis dans le dossier de l'applicationl'application
+# je suis dans le dossier de l'application
 ENV_SERVICE=mailer PORT=3001 node ./bin/www
 ```
 
@@ -71,7 +71,7 @@ ENV_SERVICE=uploader PORT=3002 node ./bin/www
 
 > Dans notre cas d'utilisation le service **Auth** doit être sur le PORT 3000
 
-## Description des Service
+## Description des Services
 
 On nous a appris qu'un service communique avec d'autre service dans un système hétérogène au travers d'API qui permet au service de s'auto-décrire.
 
