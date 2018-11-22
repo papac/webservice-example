@@ -16,7 +16,7 @@ services:
         service: "mailer"
     ports:
      - "3001:3001"
-    command: "yarn global add maildev && maidev &"
+    command: "maildev"
   uploader:
     build:
       context: .

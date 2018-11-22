@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 ARG port=3000
 ARG service=auth
 
-COPY package.json package-lock.json ./
+COPY package.json ./
 RUN yarn
 
 COPY . .
