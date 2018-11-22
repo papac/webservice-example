@@ -1,15 +1,19 @@
 const jwt = require('jsonwebtoken');
-const config = require('./config');
+const config = require('../../config');
 const router = require('express').Router();
+
 const mongoose = require('mongoose');
 const expiresIn = 86400;
 const bcrypt = require('bcryptjs');
-const User = mongoose.model('User', require('../../model/user'));
+const User = require('../../model/user');
 
-router.post('login', (req, res) => {
+// Connect mongo db
+mongoose.connect(config.mongodb, { useNewUrlParser: true, useCreateIndex: true });
+
+router.post('/login', (req, res) => {
   const { email, password } = req.body;
   
-  User.find({email}, (err, user) => {
+  User.findOne({ email }, (err, user) => {
     if (err || !bcrypt.compareSync(password, user.password)) {
       return res.status(500).send({
         message: 'email or password is not valide !',
@@ -17,9 +21,10 @@ router.post('login', (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, config.secret, {
-      expiresIn // expires in 24 hours
-    });
+    const token = jwt.sign({ 
+      id: user._id, 
+      name: user.name
+    }, config.secret, { expiresIn });
 
     res.send({
       message: 'authenticated',
@@ -32,17 +37,22 @@ router.post('login', (req, res) => {
 
 router.post('/register', (req, res) => {
   const { email, password, name } = req.body;
-  
-  User.create({email, password: bcrypt.hashSync(password)}, (err, user) => {
-    if (err || !bcrypt.compareSync(password, user.password)) {
+  const data = {
+    name: name,
+    email: email, 
+    password: bcrypt.hashSync(password)
+  };
+
+  User.create(data, (err, user) => {
+    if (err) {
       return res.status(500).send({
-        message: 'email or password is not valide !',
+        message: 'email or password is invalide !',
         error: true
       });
     }
 
-    const token = jwt.sign({ id: user._id }, config.secret, {
-      expiresIn // expires in 24 hours
+    const token = jwt.sign({ id: user._id, email: email }, config.secret, {
+      expiresIn
     });
 
     res.send({
@@ -51,18 +61,39 @@ router.post('/register', (req, res) => {
       token,
       expiresIn
     });
-  });
+  })
 });
 
-router.post('check', (req, res) => {
-  const [, token] = req.headers['authorization'].split(/Bearer\s+?/i);
+router.post('/verify', (req, res) => {
+  const token = req.headers['x-access-token'];
 
-  jwt.verify(token, config.secret, (err, decode) => {
+  if (typeof token === 'undefined') {
+    return res.send({message: 'Token is undefined', error: false});
+  }
+
+  jwt.verify(token.trim(), config.secret, (err, decode) => {
     if (err) {
-      return res.status(500).send({message: 'Token is not valide', error: true});
+      switch (err.name) {
+        case 'TokenExpiredError': {
+          return res.status(500).send({message: 'Token is expirated', error: true})
+        }
+        case 'JsonWebTokenError': {
+          return res.status(500).send({message: 'An error in your Token ', error: true})
+        }
+        default: {
+          return res.status(500).send({message: 'Token is invalide', error: true});
+        }
+      }
     }
 
-    return res.send({message: "Ok", error: false, decode});
+    User.findById(decode._id, err => {
+      if (err) {
+        return res.status(500).send({message: 'Token is invalide', error: true});
+      }
+
+      return res.send({message: "Ok", error: false, token, decode});
+    });
   });
 });
 
+module.exports = router;

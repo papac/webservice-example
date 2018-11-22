@@ -60,4 +60,8 @@ typings/
 # next.js build output
 .next
 
+# App ignore files
+storage/*
+!storage/.gitkeep
 package-lock.json
+yarn.lock

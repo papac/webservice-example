@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const service = (process.env.ENV_SERVICE || 'app');
-const app = require('../' + service);
+const app = require('../services/' + service);
 const debug = require('debug')('web-service:server');
 const http = require('http');
 
@@ -18,7 +18,11 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(PORT, () => console.log(service, 'service, start at ', (new Date).toISOString()));
+server.listen(PORT, () => {
+  const date = (new Date);
+  console.log(service.toUpperCase(), 'service, start at ', date.toISOString())
+});
+
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -42,7 +46,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -75,5 +78,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug(service + ': Listening on ' + bind);
+  debug(service.toUpperCase() + ': Listening on ' + bind);
 }
