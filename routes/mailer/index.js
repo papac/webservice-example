@@ -13,7 +13,7 @@ router.use(checkToken(require('../../model/user')));
 
 const checkEmail = (email) => reEmail.test(email);
 
-router.post('/check', (req, res) => {
+router.post('/verify', (req, res) => {
   const { email } = req.body;
 
   if (typeof email === 'undefined') {
@@ -48,7 +48,7 @@ router.post('/process', (req, res) => {
   let validation = [];
 
   // Make validation
-  for (field of ['subject', 'to', 'from', 'text']) {
+  for (field of ['subject', 'to', 'text']) {
     if (typeof req.body[field] === 'undefined') {
       validation.push(field);
     }
@@ -63,11 +63,12 @@ router.post('/process', (req, res) => {
   }
   
   // Destructurate body 
-  const { subject, to, from, text } = req.body;
+  const { subject, to, text } = req.body;
+  const form = req.body.form || process.env.EMAIL_FROM || 'mailer@test.dev';
   
   // Formatage message
   const message = {
-    from: process.env.EMAIL_FROM || from,
+    from: form,
     to: to,
     subject: subject,
     html: text

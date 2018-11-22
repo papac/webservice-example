@@ -51,7 +51,7 @@ router.post('/register', (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id }, config.secret, {
+    const token = jwt.sign({ id: user._id, email: email }, config.secret, {
       expiresIn
     });
 
