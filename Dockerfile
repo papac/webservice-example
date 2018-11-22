@@ -4,7 +4,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 ARG port=3000
-ARG service=app
+ARG service=auth
 
 COPY package.json package-lock.json ./
 RUN yarn

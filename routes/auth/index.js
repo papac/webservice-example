@@ -23,11 +23,8 @@ router.post('/login', (req, res) => {
 
     const token = jwt.sign({ 
       id: user._id, 
-      name: user.name, 
-      exp: expiresIn 
-    }, config.secret, {
-      expiresIn
-    });
+      name: user.name
+    }, config.secret, { expiresIn });
 
     res.send({
       message: 'authenticated',
@@ -51,7 +48,7 @@ router.post('/register', (req, res) => {
   User.create(data, (err, user) => {
     if (err) {
       return res.status(500).send({
-        message: 'email or password is not valide !',
+        message: 'email or password is invalide !',
         error: true
       });
     }
@@ -73,20 +70,30 @@ router.post('/verify', (req, res) => {
   const token = req.headers['x-access-token'];
 
   if (typeof token === 'undefined') {
-    return res.send({message: 'Token is not valide', error: false});
+    return res.send({message: 'Token is undefined', error: false});
   }
 
-  jwt.verify(token, config.secret, (err, decode) => {
+  jwt.verify(token.trim(), config.secret, (err, decode) => {
     if (err) {
-      return res.status(500).send({message: 'Token is not valide', error: true});
+      switch (err.name) {
+        case 'TokenExpiredError': {
+          return res.status(500).send({message: 'Token is expirated', error: true})
+        }
+        case 'JsonWebTokenError': {
+          return res.status(500).send({message: 'An error in your Token ', error: true})
+        }
+        default: {
+          return res.status(500).send({message: 'Token is invalide', error: true});
+        }
+      }
     }
 
     User.findById(decode._id, err => {
       if (err) {
-        return res.status(500).send({message: 'Token is not valide', error: true});
+        return res.status(500).send({message: 'Token is invalide', error: true});
       }
 
-      return res.send({message: "Ok", error: false, token});
+      return res.send({message: "Ok", error: false, token, decode});
     });
   });
 });

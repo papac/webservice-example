@@ -5,12 +5,6 @@ const config = require('../../config');
 const mongoose = require('mongoose');
 const reEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const checkToken = require('../middleware');
-const code = {
-  VALIDATION: 1000,
-  EMAIL_INVALID: 10001,
-  ERROR: 1002,
-  SUCCESS: 1003
-}
 
 // Connect mongo db
 mongoose.connect(config.mongodb, { useNewUrlParser: true, useCreateIndex: true });
@@ -25,23 +19,20 @@ router.post('/check', (req, res) => {
   if (typeof email === 'undefined') {
     res.send({
       message: 'Please add email for verification', 
-      error: true, 
-      code: code.ERROR
+      error: true
     });
   }
 
   if (checkEmail(email)) {
     return res.send({
       message: "Email is valide", 
-      error: false, 
-      code: code.EMAIL_INVALID
+      error: false
     });
   }
 
   return res.send({
     message: 'Email is not valide', 
-    error: true, 
-    code: code.SUCCESS
+    error: true
   });
 });
 
@@ -67,8 +58,7 @@ router.post('/process', (req, res) => {
   if (validation.length > 0) {
     return res.send({
       message: 'You have omit ' + validation.join(', '), 
-      error: true, 
-      code: code.VALIDATION
+      error: true
     });
   }
   
@@ -87,10 +77,10 @@ router.post('/process', (req, res) => {
   transporter.sendMail(message, (err, info) => {
     if (err) {
       console.error(err);
-      return res.send({message: "An error occured", error: true, code: code.ERROR});
+      return res.send({message: "An error occured", error: true});
     }
 
-    res.send({message: 'Message sent', error: false, code: code.SUCCESS});
+    res.send({message: 'Message sent', error: false});
   });
 });
 
