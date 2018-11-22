@@ -58,7 +58,8 @@ router.post('/upload', (req, res) => {
       hashname: `${hashname}${extension}`,
       size: file.size,
       path: `${hashname}${extension}`,
-      url: `${hashname}${extension}`
+      url: `${hashname}${extension}`,
+      author: req.decode['_id']
     });
 
     res.status(201).send({

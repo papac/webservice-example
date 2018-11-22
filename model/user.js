@@ -16,15 +16,6 @@ module.exports = mongoose.model('User', new Schema({
     type: String, 
     required: true
   },
-  avatar: String,
-  contacts: [{
-    email: String, 
-    name: String
-  }],
-  compagns: [{
-    title: String, 
-    description: String
-  }],
   date: {
     type: Date, 
     default: Date.now

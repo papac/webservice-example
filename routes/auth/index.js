@@ -40,9 +40,7 @@ router.post('/register', (req, res) => {
   const data = {
     name: name,
     email: email, 
-    password: bcrypt.hashSync(password),
-    contacts: [],
-    compagns: []
+    password: bcrypt.hashSync(password)
   };
 
   User.create(data, (err, user) => {
