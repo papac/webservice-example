@@ -77,7 +77,7 @@ On nous a appris qu'un service communique avec d'autre service dans un système 
 
 Alors voici les descriptions (API REST) de chaque service:
 
-### Service AUTH
+## Service AUTH
 
 Ce service permet d'authifier un utilisateur sur le système général.
 
@@ -114,11 +114,11 @@ Host: http://locahost:3000
 X-Access-Token: Votre-Token-Ici
 ```
 
-### Service Upload
+## Service Upload
 
 Ce service permet d'envoyer des fichiers sur le serveur.
 
-Avant d'utiliser ce service votre devez disponcer d'un token:
+Avant d'utiliser ce service votre devrez disposer d'un token valide:
 
 ### Uploade un fichier
 
@@ -133,3 +133,38 @@ Content-Type: muttpart/form-data
 
 Le service pour permet aussi de télécharger une image.
 
+```http
+GET /url?filename={filename}
+
+Host: http://localhost:3002
+```
+
+## Service Mailer
+
+Ce service permet d'envoyer des emails et de verifier la validité des email.
+
+Avant d'utiliser ce service votre devrez disposer d'un token valide:
+
+### Vérifié un email
+
+```http
+POST /verify
+
+Host: localhost:3001
+Content-Type: application/x-form-www-urlencoded
+X-Access-Token: Votre-Token-Valide
+
+email=example@email.com
+```
+
+### Envoyer un email
+
+```http
+POST /process
+
+Host: localhost:3001
+Content-Type: application/x-form-www-urlencoded
+X-Access-Token: Votre-Token-Valide
+
+to=destinateur@email.com&subject=objet&message=Bonjour&from=expediteur@email.com
+```
