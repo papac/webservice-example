@@ -10,8 +10,13 @@ const app = express();
 
 // Connect mongo db
 mongoose.connect(config.mongodb, {
-  useNewUrlParser: true,
+  useNewUrlParser: true, 
   useCreateIndex: true
+}, err => {
+  if (err) {
+    console.warn("Can not connect to mongodb server.");
+    console.error(err.message);
+  }
 });
 
 // Load verifiy token middleware

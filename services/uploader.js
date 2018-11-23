@@ -13,8 +13,13 @@ const mongoose = require('mongoose');
 const app = express();
 
 mongoose.connect(config.mongodb, {
-  useNewUrlParser: true,
+  useNewUrlParser: true, 
   useCreateIndex: true
+}, err => {
+  if (err) {
+    console.warn("Can not connect to mongodb server.");
+    console.error(err.message);
+  }
 });
 
 app.use(logger('dev'));
