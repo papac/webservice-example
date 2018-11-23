@@ -17,17 +17,17 @@ mongoose.connect(config.mongodb, {
   useCreateIndex: true
 });
 
-// Load verifiy token middleware
-app.use(verifyToken(
-  require('../model/user')
-));
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/url', (req, res) => {
   const { filename } = req.query
+  
+  if (typeof filename === 'undefined') {
+    return res.send('File not found');
+  }
+
   fs.exists(path.join(storage, filename), (exists, err) => {
     if (!exists) {
       return res.status(404)
@@ -45,7 +45,7 @@ app.use(fileUpload({
   limits: 1024 * 20
 }));
 
-app.post('/upload', (req, res) => {
+app.post('/upload', verifyToken(require('../model/user')), (req, res) => {
   if (typeof req.files === 'undefined' || Object.keys(req.files).length == 0) {
     return res.status(500).send({
       message: 'Can not upload file, because file is empty', 
