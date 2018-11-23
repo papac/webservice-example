@@ -11,17 +11,14 @@ module.exports = (User) => (req, res, next) => {
     url: 'http://localhost:3000/verify', 
     headers: {'x-access-token': token},
     method:'post',
-  }).then(function (res) {
-    const {message, error} = res.data;
+  }).then(res => {
+    const { error } = res.data;
     if (!error) {
       req.decode = res.data['decode'];
       return next(req);
     }
     res.send(res.data);
-  }).catch(() => {
-    return res.send({
-      message: 'Token is invalide', 
-      error: true
-    });
+  }).catch(err => {
+    return res.send(err.response['data']);
   });
 };
