@@ -7,6 +7,12 @@ Creer un service du nom de 'user' qui permet de consulter:
 
 Ce service sera lancer sur le port `3003`.
 
+## Prise en main de nodejs et expressjs
+
+- [Le base de nodejs](https://nodejs.developpez.com/tutoriels/javascript/redecouvrir-javascript-avec-nodejs/)
+- [https://devotics.fr/votre-premiere-app-nodejs-express/](https://devotics.fr/votre-premiere-app-nodejs-express/)
+- [http://webiose.com/2014/04/express-js-le-micro-framework-pour-node-js/](http://webiose.com/2014/04/express-js-le-micro-framework-pour-node-js/)
+
 ## Description de API
 
 Pour consulter la liste des utilisateurs:
