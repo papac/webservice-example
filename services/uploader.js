@@ -22,8 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/url', (req, res) => {
-  const { filename } = req.query
-  
+  const { filename, original } = req.query
+
   if (typeof filename === 'undefined') {
     return res.send('File not found');
   }
@@ -34,10 +34,26 @@ app.get('/url', (req, res) => {
         .send('File not found');
     }
 
-    res.download(
-      path.join(storage, filename), 
-      filename
-    );
+    if (typeof original === 'undefined') {
+      return res.download(
+        path.join(storage, filename), 
+        filename
+      );
+    }
+
+    return Material.findOne({ hashname: path.parse(filename).name }, (err, material) => {
+      if (err) {
+        return res.download(
+          path.join(storage, filename), 
+          filename
+        );
+      }
+
+      return res.download(
+        path.join(storage, filename), 
+        material.filename
+      );
+    });
   });
 });
 

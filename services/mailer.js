@@ -62,7 +62,7 @@ app.post('/process', (req, res) => {
   let validation = [];
 
   // Make validation
-  for (field of ['subject', 'to', 'text']) {
+  for (field of ['subject', 'to', 'message']) {
     if (typeof req.body[field] === 'undefined') {
       validation.push(field);
     }
@@ -77,19 +77,19 @@ app.post('/process', (req, res) => {
   }
   
   // Destructurate body 
-  const { subject, to, text } = req.body;
+  const { subject, to, message } = req.body;
   const form = req.body.form || process.env.EMAIL_FROM || 'mailer@test.dev';
   
   // Formatage message
-  const message = {
+  const data = {
     from: form,
     to: to,
     subject: subject,
-    html: text
+    html: message
   };
 
   // Send email
-  transporter.sendMail(message, (err, info) => {
+  transporter.sendMail(data, (err, info) => {
     if (err) {
       return res.send({
         message: "An error occured", 
@@ -97,7 +97,7 @@ app.post('/process', (req, res) => {
       });
     }
 
-    res.send({
+    res.status(201).send({
       message: 'Message sent', 
       error: false
     });

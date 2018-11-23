@@ -27,36 +27,44 @@ const sendToken = (user, res) => {
   }, config.secret, {expiresIn: config.tokenExpiration});
 
   res.send({
-    message: 'authenticated',
-    error: false, 
-    token,
-    crearedAt: Date.now
+    status: {
+      message: 'authenticated',
+      error: false, 
+    },
+    data: {
+      token,
+      crearedAt: Date.now()
+    }
   });
+}
+
+const formatResponse = (status, data = {}) => {
+  return {status, data}
 }
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
   if (typeof email === 'undefined') {
-    return res.send({
+    return res.status(500).send(formatResponse({
       message: 'email or password is not valide !',
       error: true
-    });
+    }));
   }
 
   if (typeof password === 'undefined') {
-    return res.send({
+    return res.status(500).send(formatResponse({
       message: 'email or password is not valide !',
       error: true
-    });
+    }));
   }
   
   User.findOne({ email }, (err, user) => {
     if (err || (user !== null && !bcrypt.compareSync(password, user.password))) {
-      return res.status(500).send({
+      return res.status(204).send(formatResponse({
         message: 'email or password is not valide !',
         error: true
-      });
+      }));
     }
 
     // Send Token
@@ -75,13 +83,14 @@ app.post('/register', (req, res) => {
 
   User.create(data, (err, user) => {
     if (err) {
-      return res.status(500).send({
+      return res.status(500).send(formatResponse({
         message: 'email or password is invalide !',
         error: true
-      });
+      }));
     }
 
     // Send Token
+    res.status(201);
     return sendToken(user, res);
   })
 });
@@ -90,50 +99,51 @@ app.post('/verify', (req, res) => {
   const token = req.headers['x-access-token'];
 
   if (typeof token === 'undefined') {
-    return res.send({
+    return res.send(formatResponse({
       message: 'Token undefined', 
       error: false
-    });
+    }));
   }
 
   jwt.verify(token.trim(), config.secret, (err, decode) => {
     if (err) {
       switch (err.name) {
         case 'TokenExpiredError': {
-          return res.status(500).send({
+          return res.status(500).send(formatResponse({
             message: 'Token is expirated', 
             error: true
-          })
+          }))
         }
         case 'JsonWebTokenError': {
-          return res.status(500).send({
+          return res.status(500).send(formatResponse({
             message: 'An error in your Token', 
             error: true
-          })
+          }))
         }
         default: {
-          return res.status(500).send({
+          return res.status(500).send(formatResponse({
             message: 'Token is invalide', 
             error: true
-          });
+          }));
         }
       }
     }
 
     User.findById(decode._id, err => {
       if (err) {
-        return res.status(500).send({
+        return res.status(500).send(formatResponse({
           message: 'Token is invalide', 
           error: true
-        });
+        }));
       }
 
-      return res.send({
+      return res.send(formatResponse({
         message: "Ok", 
-        error: false, 
+        error: false
+      }, {
         token, 
         decode
-      });
+      }));
     });
   });
 });
