@@ -111,8 +111,8 @@ Content-Type : application/json
     "createdAt": 1542973175398
   },
   "status": {
-    "message": message,
-    "error": bool
+    "message": "message",
+    "error": "boolean"
   }
 }
 ```
@@ -146,7 +146,7 @@ Content-Type : application/json
   },
   "status": {
     "message": "message",
-    "error": bool
+    "error": "boolean"
   }
 }
 ```
@@ -174,7 +174,7 @@ Content-Type : application/json
   },
   "status": {
     "message": "message",
-    "error": bool
+    "error": "boolean"
   }
 }
 ```
@@ -205,11 +205,13 @@ Date : Sat, 15 Jan 2018 14:37:12 GMT Server : Expressjs
 Content-Type : application/json
 
 {
-  "message": message,
-  "error": bool,
-  "url": url
+  "message": "message",
+  "error": "boolean",
+  "url": "url"
 }
 ```
+
+> `url` sera disponible en cas de succès
 
 ### Téléchargé un image
 
