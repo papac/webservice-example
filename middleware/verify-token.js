@@ -15,7 +15,7 @@ module.exports = (User) => (req, res, next) => {
     const { error } = res.data;
     if (!error) {
       req.decode = res.data['decode'];
-      return next(req);
+      return next();
     }
     res.send(res.data);
   }).catch(err => {

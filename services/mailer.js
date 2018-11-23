@@ -28,6 +28,8 @@ const checkEmail = (email) => reEmail.test(email);
 app.post('/verify', (req, res) => {
   const { email } = req.body;
 
+  console.log('HERE');
+
   if (typeof email === 'undefined') {
     res.send({
       message: 'Please add email for verification', 

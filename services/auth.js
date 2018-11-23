@@ -3,7 +3,6 @@ const logger = require('morgan');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const mongoose = require('mongoose');
-const expiresIn = 86400;
 const bcrypt = require('bcryptjs');
 const User = require('../model/user');
 
@@ -18,6 +17,22 @@ mongoose.connect(config.mongodb, {
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const sendToken = (user, res) => {
+  // Signature tu token
+  const token = jwt.sign(      {
+    id: user._id,
+    name: user.name,
+    email: user.email
+  }, config.secret, {expiresIn: config.tokenExpiration});
+
+  res.send({
+    message: 'authenticated',
+    error: false, 
+    token,
+    crearedAt: Date.now
+  });
+}
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -44,21 +59,8 @@ app.post('/login', (req, res) => {
       });
     }
 
-    const token = jwt.sign({
-        id: user._id,
-        name: user.name,
-        email, 
-        exp: expiresIn
-      }, 
-      config.secret
-    );
-
-    res.send({
-      message: 'authenticated',
-      error: false, 
-      token,
-      expiresIn
-    });
+    // Send Token
+    return sendToken(user, res);
   });
 });
 
@@ -79,19 +81,8 @@ app.post('/register', (req, res) => {
       });
     }
 
-    const token = jwt.sign(      {
-      id: user._id,
-      name: user.name,
-      email: user.email, 
-      exp: expiresIn
-    }, config.secret);
-
-    res.send({
-      message: 'authenticated',
-      error: false, 
-      token,
-      expiresIn
-    });
+    // Send Token
+    return sendToken(user, res);
   })
 });
 
@@ -100,7 +91,7 @@ app.post('/verify', (req, res) => {
 
   if (typeof token === 'undefined') {
     return res.send({
-      message: 'Token is undefined', 
+      message: 'Token undefined', 
       error: false
     });
   }
@@ -116,7 +107,7 @@ app.post('/verify', (req, res) => {
         }
         case 'JsonWebTokenError': {
           return res.status(500).send({
-            message: 'An error in your Token ', 
+            message: 'An error in your Token', 
             error: true
           })
         }
