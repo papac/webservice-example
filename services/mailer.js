@@ -89,11 +89,16 @@ app.post('/process', (req, res) => {
   // Send email
   transporter.sendMail(message, (err, info) => {
     if (err) {
-      console.error(err);
-      return res.send({message: "An error occured", error: true});
+      return res.send({
+        message: "An error occured", 
+        error: true
+      });
     }
 
-    res.send({message: 'Message sent', error: false});
+    res.send({
+      message: 'Message sent', 
+      error: false
+    });
   });
 });
 

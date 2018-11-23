@@ -100,30 +100,50 @@ app.post('/verify', (req, res) => {
   const token = req.headers['x-access-token'];
 
   if (typeof token === 'undefined') {
-    return res.send({message: 'Token is undefined', error: false});
+    return res.send({
+      message: 'Token is undefined', 
+      error: false
+    });
   }
 
   jwt.verify(token.trim(), config.secret, (err, decode) => {
     if (err) {
       switch (err.name) {
         case 'TokenExpiredError': {
-          return res.status(500).send({message: 'Token is expirated', error: true})
+          return res.status(500).send({
+            message: 'Token is expirated', 
+            error: true
+          })
         }
         case 'JsonWebTokenError': {
-          return res.status(500).send({message: 'An error in your Token ', error: true})
+          return res.status(500).send({
+            message: 'An error in your Token ', 
+            error: true
+          })
         }
         default: {
-          return res.status(500).send({message: 'Token is invalide', error: true});
+          return res.status(500).send({
+            message: 'Token is invalide', 
+            error: true
+          });
         }
       }
     }
 
     User.findById(decode._id, err => {
       if (err) {
-        return res.status(500).send({message: 'Token is invalide', error: true});
+        return res.status(500).send({
+          message: 'Token is invalide', 
+          error: true
+        });
       }
 
-      return res.send({message: "Ok", error: false, token, decode});
+      return res.send({
+        message: "Ok", 
+        error: false, 
+        token, 
+        decode
+      });
     });
   });
 });

@@ -30,11 +30,14 @@ app.get('/url', (req, res) => {
   const { filename } = req.query
   fs.exists(path.join(storage, filename), (exists, err) => {
     if (!exists) {
-      console.log(err);
-      return res.status(404).send('File not found');
+      return res.status(404)
+        .send('File not found');
     }
 
-    res.download(path.join(storage, filename), filename);
+    res.download(
+      path.join(storage, filename), 
+      filename
+    );
   });
 });
 
