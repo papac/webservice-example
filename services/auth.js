@@ -37,15 +37,14 @@ app.post('/login', (req, res) => {
   }
   
   User.findOne({ email }, (err, user) => {
-    if (err || !bcrypt.compareSync(password, user.password)) {
+    if (err || (user !== null && !bcrypt.compareSync(password, user.password))) {
       return res.status(500).send({
         message: 'email or password is not valide !',
         error: true
       });
     }
 
-    const token = jwt.sign(
-      {
+    const token = jwt.sign({
         id: user._id,
         name: user.name,
         email, 
